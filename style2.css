@@ -1,0 +1,267 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: sora;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  color: white;
+}
+
+/* scoring */
+
+#score-area {
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.1);
+  width: 100%;
+  height: 4rem;
+  font-size: xx-large;
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+#last-score {
+  position: absolute;
+  right: 1rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+#score {
+  font-size: 4rem;
+}
+
+/* board */
+
+#board {
+  width: 100%;
+  position: relative;
+  flex-grow: 1;
+}
+
+/* hand */
+
+#hand {
+  position: relative;
+  height: 10rem;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* btn-area */
+
+#btn-area {
+  width: 100%;
+  height: 4rem;
+  font-size: xx-large;
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#btn-area > div {
+  background-color: rgba(255, 255, 255, 0.1);
+  height: 100%;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#btn-area > div:not(.disable):hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+#btn-area > div.disable {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+/* tile */
+
+.tile {
+  position: absolute;
+  /* width: calc(4rem - 2px);
+    height: calc(4rem - 2px); */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(20, 20, 20);
+  font-weight: bold;
+  font-size: 200%;
+  transform: translate(-50%, -50%);
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+  /* border-width: 1px;
+  border-style: solid;
+  border-color: rgb(10, 10, 10); */
+  transform-origin: top left;
+  /* box-shadow: rgba(55, 55, 55, 0.15) 1.95px 1.95px 2.6px; */
+}
+
+#hand .tile {
+  transform-origin: 50% 50%;
+}
+
+.tile.next {
+  animation-name: fadein;
+  animation-duration: 1s;
+  background-color: rgb(10, 10, 10);
+  color: rgb(40, 40, 40);
+  transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+.tile.next:hover {
+  color: rgb(255, 255, 255);
+  border-color: rgb(255, 255, 255);
+}
+
+.tile.score {
+  animation-name: score;
+  animation-duration: 0.25s;
+  z-index: 1;
+}
+
+.tile.qwirkle {
+  animation-name: qwirkle;
+  animation-duration: 0.25s;
+  z-index: 1;
+}
+
+.tile svg {
+  width: 60%;
+}
+
+#hand .tile svg {
+  width: 40%;
+  transition: all 0.3s ease-in-out;
+}
+
+#hand .tile.selected.invalid {
+  animation-name: invalid;
+  animation-duration: 0.2s;
+  animation-iteration-count: 3;
+}
+
+#hand .tile.selected svg {
+  width: 80%;
+}
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes invalid {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  25% {
+    transform: translate(-55%, -50%) rotate(-5deg);
+  }
+  75% {
+    transform: translate(-45%, -50%) rotate(5deg);
+  }
+}
+
+@keyframes score {
+  0% {
+    rotate: 0deg;
+    scale: 100%;
+  }
+  100% {
+    /* rotate: 360deg; */
+    scale: 100%;
+  }
+  50% {
+    /* rotate: 180deg; */
+    scale: 130%;
+  }
+}
+
+@keyframes qwirkle {
+  0% {
+    rotate: 0deg;
+    scale: 100%;
+  }
+  100% {
+    rotate: 360deg;
+    scale: 100%;
+  }
+  50% {
+    rotate: 180deg;
+    scale: 130%;
+  }
+}
+
+/* dark mode */
+
+@media (prefers-color-scheme: light) {
+  body {
+    background-color: white;
+    color: black;
+  }
+
+  #score-area {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  #last-score {
+    color: rgba(0, 0, 0, 0.5);
+  }
+
+  #hand {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  #btn-area > div {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  #btn-area > div:not(.disable):hover {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+
+  #btn-area > div.disable {
+    color: rgba(0, 0, 0, 0.2);
+  }
+
+  .tile {
+    background-color: rgb(235, 235, 235);
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  }
+
+  .tile.next {
+    background-color: rgb(245, 245, 245);
+    color: rgb(215, 215, 215);
+  }
+
+  .tile.next:hover {
+    background-color: rgb(215, 215, 215);
+  }
+
+  .tile.selected {
+    color: rgb(0, 0, 0);
+    border-color: rgb(0, 0, 0);
+  }
+}
