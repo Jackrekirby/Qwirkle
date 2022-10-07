@@ -1,0 +1,209 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: sora;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  background-color: black;
+}
+#score {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.03);
+  color: white;
+  font-weight: bold;
+  font-size: 10vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#last-score {
+  position: absolute;
+  right: 5%;
+  /* height: 100%;
+  width: 100%; */
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: bold;
+  font-size: 5vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#board {
+  position: relative;
+  height: 65%;
+  width: 100%;
+  overflow: hidden;
+}
+#hand {
+  position: relative;
+  height: 15%;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.03);
+}
+#btn-area {
+  position: relative;
+  height: 10%;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.06);
+  color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  font-size: xx-large;
+}
+
+#btn-area > div {
+  width: 45%;
+  height: 80%;
+  background-color: rgba(255, 255, 255, 0.06);
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease-in-out;
+}
+
+#btn-area > div:not(.disable):hover {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+#btn-area > div.disable {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.tile {
+  position: absolute;
+  /* width: calc(4rem - 2px);
+  height: calc(4rem - 2px); */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(20, 20, 20);
+  font-weight: bold;
+  font-size: 200%;
+  transform: translate(-50%, -50%);
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgb(10, 10, 10);
+  transform-origin: top left;
+}
+
+.tile.next {
+  background-color: rgb(10, 10, 10);
+  color: rgb(40, 40, 40);
+  transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+}
+
+.tile.next:hover {
+  color: rgb(255, 255, 255);
+  border-color: rgb(255, 255, 255);
+}
+
+.tile.selected {
+  color: rgb(255, 255, 255);
+  border-color: rgb(255, 255, 255);
+}
+
+#score-area {
+  position: relative;
+  height: 10%;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.06);
+  color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.tile.score {
+  animation-name: score;
+  animation-duration: 0.25s;
+  z-index: 1;
+}
+
+.tile.qwirkle {
+  animation-name: qwirkle;
+  animation-duration: 0.25s;
+  z-index: 1;
+}
+
+.tile svg {
+  width: 60%;
+}
+
+.tile.selected.invalid {
+  animation-name: example;
+  animation-duration: 2s;
+}
+
+@keyframes example {
+  0%,
+  20%,
+  40%,
+  60% {
+    border-color: rgb(255, 255, 255);
+  }
+  10%,
+  30%,
+  50%,
+  70% {
+    border-color: rgb(200, 20, 20);
+  }
+}
+
+@keyframes score {
+  0% {
+    background-color: rgb(20, 20, 20);
+    rotate: 0deg;
+    scale: 100%;
+  }
+  100% {
+    background-color: rgb(20, 20, 20);
+    /* rotate: 360deg; */
+    scale: 100%;
+  }
+  50% {
+    background-color: rgb(40, 40, 40);
+    /* rotate: 180deg; */
+    scale: 130%;
+  }
+}
+
+@keyframes qwirkle {
+  0% {
+    background-color: rgb(20, 20, 20);
+    rotate: 0deg;
+    scale: 100%;
+  }
+  100% {
+    background-color: rgb(20, 20, 20);
+    rotate: 360deg;
+    scale: 100%;
+  }
+  50% {
+    background-color: rgb(40, 40, 40);
+    rotate: 180deg;
+    scale: 130%;
+  }
+}
