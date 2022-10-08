@@ -392,21 +392,23 @@ function renderBoard() {
         while (scoreList.length) { scoreList.pop(); };
 
         function scoreTileX(range, tile) {
-            if (!(range.min === 0 && range.max === 0)) {
-                scoreList.push(range.max + range.min + 1);
-                for (let x = tile.x - range.min; x <= tile.x + range.max; ++x) {
-                    scoreList.push({ x, y: tile.y });
-                }
 
+            if (!(range.min === 0 && range.max === 0)) {
+                const scoreTiles = [];
+                for (let x = tile.x - range.min; x <= tile.x + range.max; ++x) {
+                    scoreTiles.push({ x, y: tile.y });
+                }
+                scoreList.push(scoreTiles);
             }
         }
 
         function scoreTileY(range, tile) {
             if (!(range.min === 0 && range.max === 0)) {
-                scoreList.push(range.max + range.min + 1);
+                const scoreTiles = [];
                 for (let y = tile.y - range.min; y <= tile.y + range.max; ++y) {
-                    scoreList.push({ x: tile.x, y });
+                    scoreTiles.push({ x: tile.x, y });
                 }
+                scoreList.push(scoreTiles);
             }
         }
 
@@ -597,25 +599,25 @@ const scoreList = [];
 
         (async () => {
             // const tile of scoreList
-            for (let i = 0; i < scoreList.length; ++i) {
-                const tile = scoreList[i];
-                if (!Number.isInteger(tile)) {
-                    audio.point.currentTime = 0;
-                    audio.point.play();
-                    const id = `live-tile-${tile.x}-${tile.y}`;
-                    const ref = document.getElementById(id);
-                    ref.classList.add('score');
-                    setTimeout(() => {
-                        ref.classList.remove('score');
-                    }, 400);
-                    totalScore++;
-                    document.getElementById('score').innerText = totalScore;
-                    await delay(450);
-                } else if (tile === 6) {
+            scoreList.sort((a, b) => a.length - b.length);
+            for (const scoreTiles of scoreList) {
+                if (scoreTiles.length < 6) {
+                    for (const tile of scoreTiles) {
+                        audio.point.currentTime = 0;
+                        audio.point.play();
+                        const id = `live-tile-${tile.x}-${tile.y}`;
+                        const ref = document.getElementById(id);
+                        ref.classList.add('score');
+                        setTimeout(() => {
+                            ref.classList.remove('score');
+                        }, 400);
+                        totalScore++;
+                        document.getElementById('score').innerText = totalScore;
+                        await delay(450);
+                    }
+                } else {
                     audio.qwirkle.play();
-                    const j = i + 1;
-                    for (i = j; i < j + 6; ++i) {
-                        const tile = scoreList[i];
+                    for (const tile of scoreTiles) {
                         const id = `live-tile-${tile.x}-${tile.y}`;
                         const ref = document.getElementById(id);
                         ref.classList.add('qwirkle');
