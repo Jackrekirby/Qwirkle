@@ -1,5 +1,11 @@
 console.log('qwirkle');
 
+const audio = {
+    qwirkle: new Audio('qwirkle.mp3'),
+    point: new Audio('point.mp3'),
+    invalid: new Audio('wrong.mp3'),
+}
+
 const shapeMap = {
     'star': '★',
     'circle': '●',
@@ -282,6 +288,7 @@ function renderNextTiles(tileList, boardRange, tileSize) {
         ref.style.top = `${(tile.y - boardRange.y - 0.5) * tileSize + refBoard.offsetHeight / 2}px`;
         ref.style.left = `${(tile.x - boardRange.x - 0.5) * tileSize + refBoard.offsetWidth / 2}px`;
 
+        let timeout;
         ref.onclick = () => {
             const handTile = handTiles[handTileIndex];
             if (handTile !== undefined) {
@@ -295,10 +302,12 @@ function renderNextTiles(tileList, boardRange, tileSize) {
                     renderHandTiles();
                 } else {
                     const refHandTile = document.getElementById('hand-tile-' + handTileIndex);
+                    audio.invalid.play();
+                    clearTimeout(timeout);
                     refHandTile.classList.add('invalid');
-                    setTimeout(() => {
+                    timeout = setTimeout(() => {
                         refHandTile.classList.remove('invalid');
-                    }, 3000);
+                    }, 500);
                 }
             }
         }
@@ -564,15 +573,19 @@ const scoreList = [];
             for (let i = 0; i < scoreList.length; ++i) {
                 const tile = scoreList[i];
                 if (!Number.isInteger(tile)) {
+                    audio.point.currentTime = 0;
+                    audio.point.play();
                     const id = `live-tile-${tile.x}-${tile.y}`;
                     const ref = document.getElementById(id);
                     ref.classList.add('score');
                     setTimeout(() => {
                         ref.classList.remove('score');
-                    }, 250);
+                    }, 350);
                     totalScore++;
                     document.getElementById('score').innerText = totalScore;
+                    await delay(400);
                 } else if (tile === 6) {
+                    audio.qwirkle.play();
                     const j = i + 1;
                     for (i = j; i < j + 6; ++i) {
                         const tile = scoreList[i];
@@ -581,12 +594,12 @@ const scoreList = [];
                         ref.classList.add('qwirkle');
                         setTimeout(() => {
                             ref.classList.remove('qwirkle');
-                        }, 250);
+                        }, 700);
                     }
                     totalScore += 12;
                     document.getElementById('score').innerText = totalScore;
+                    await delay(750);
                 }
-                await delay(300);
             }
 
             document.getElementById('last-score').innerText = '';

@@ -162,19 +162,21 @@ body {
   border-color: rgb(255, 255, 255);
 }
 
-.tile.score {
+.tile.score svg {
   animation-name: score;
-  animation-duration: 0.25s;
+  animation-duration: 0.35s;
   -webkit-animation-name: score;
-  -webkit-animation-duration: 0.25s;
+  -webkit-animation-duration: 0.35s;
   z-index: 1;
 }
 
-.tile.qwirkle {
+.tile.qwirkle svg {
   animation-name: qwirkle;
   animation-duration: 0.25s;
+  animation-iteration-count: 4;
   -webkit-animation-name: qwirkle;
   -webkit-animation-duration: 0.25s;
+  -webkit-animation-iteration-count: 4;
   z-index: 1;
 }
 
@@ -190,10 +192,10 @@ body {
 #hand .tile.selected.invalid {
   animation-name: invalid;
   animation-duration: 0.2s;
-  animation-iteration-count: 3;
+  animation-iteration-count: infinite;
   -webkit-animation-name: invalid;
   -webkit-animation-duration: 0.2s;
-  -webkit-animation-iteration-count: 3;
+  -webkit-animation-iteration-count: infinite;
 }
 
 #hand .tile.selected svg {
@@ -212,13 +214,13 @@ body {
 @keyframes invalid {
   0%,
   100% {
-    transform: translate(-50%, -50%) rotate(0deg);
+    transform: translate(0%, 0%) rotate(0deg);
   }
   25% {
-    transform: translate(-55%, -50%) rotate(-5deg);
+    transform: translate(5%, 0%) rotate(-5deg);
   }
   75% {
-    transform: translate(-45%, -50%) rotate(5deg);
+    transform: translate(-5%, 0%) rotate(5deg);
   }
 }
 
@@ -243,18 +245,12 @@ body {
 @keyframes qwirkle {
   0% {
     transform: rotate(0deg) scale(100%);
-    /* rotate: 0deg;
-    scale: 100%; */
   }
   100% {
     transform: rotate(360deg) scale(100%);
-    /* rotate: 360deg;
-    scale: 100%; */
   }
   50% {
-    transform: rotate(180deg) scale(130%);
-    /* rotate: 180deg;
-    scale: 130%; */
+    transform: rotate(180deg) scale(150%);
   }
 }
 
