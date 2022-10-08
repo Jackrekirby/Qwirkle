@@ -492,7 +492,7 @@ function renderHandTiles() {
         ref.style.width = `${tileSize - borderSize}px`;
         ref.style.height = `${tileSize - borderSize}px`;
         ref.style.top = `${-0.5 * tileSize + refHand.offsetHeight / 2}px`;
-        ref.style.left = `${(i - 2.5) * tileSize + refHand.offsetWidth / 2}px`;
+        ref.style.left = `${(i - 3) * tileSize + refHand.offsetWidth / 2}px`;
 
         // if (handTileIndex === i) {
         //     ref.classList.add('selected');
