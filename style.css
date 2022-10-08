@@ -16,6 +16,16 @@ body {
   color: white;
 }
 
+/* version */
+
+#version {
+  position: absolute;
+  top: 1rem;
+  left: 1.5rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: x-large;
+}
+
 /* scoring */
 
 #score-area {
@@ -278,5 +288,9 @@ body {
   .tile.selected {
     color: rgb(0, 0, 0);
     border-color: rgb(0, 0, 0);
+  }
+
+  #version {
+    color: rgba(0, 0, 0, 0.5);
   }
 }
