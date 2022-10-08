@@ -4,6 +4,7 @@ const audio = {
     qwirkle: new Audio('qwirkle.mp3'),
     point: new Audio('point.mp3'),
     invalid: new Audio('wrong.mp3'),
+    place: new Audio('place.mp3'),
 }
 
 const shapeMap = {
@@ -271,13 +272,13 @@ function sizeBoard(refBoard) {
     }
     // console.log(boardRange);
 
-    const tileSize = Math.min(refBoard.offsetWidth / boardRange.dx, refBoard.offsetHeight / boardRange.dy) - 10;
+    const tileSize = Math.max(Math.min(refBoard.offsetWidth / boardRange.dx, refBoard.offsetHeight / boardRange.dy) - 10, 40);
 
     return [boardRange, tileSize];
 }
 
 function renderNextTiles(tileList, boardRange, tileSize) {
-    const refBoard = document.getElementById('board');
+    const refBoard = document.getElementById('board-sizer');
     for (const tile of tileList) {
         // console.log(tile);
         const ref = document.createElement('div');
@@ -285,8 +286,8 @@ function renderNextTiles(tileList, boardRange, tileSize) {
         // ref.innerText = `${tile.x} ${tile.y}`;
         ref.style.width = `${tileSize - borderSize}px`;
         ref.style.height = `${tileSize - borderSize}px`;
-        ref.style.top = `${(tile.y - boardRange.y - 0.5) * tileSize + refBoard.offsetHeight / 2}px`;
-        ref.style.left = `${(tile.x - boardRange.x - 0.5) * tileSize + refBoard.offsetWidth / 2}px`;
+        ref.style.top = `${(tile.y - boardRange.y - 0.5) * tileSize + (refBoard.offsetHeight + borderSize) / 2}px`;
+        ref.style.left = `${(tile.x - boardRange.x - 0.5) * tileSize + (refBoard.offsetWidth + borderSize) / 2}px`;
 
         let timeout;
         ref.onclick = () => {
@@ -294,6 +295,7 @@ function renderNextTiles(tileList, boardRange, tileSize) {
             if (handTile !== undefined) {
                 // console.log(tile.x, tile.y, handTile.shape, handTile.color);
                 if (addLiveTile(tile.x, tile.y, handTile.shape, handTile.color)) {
+                    audio.place.play();
                     document.getElementById('undo').classList.remove('disable');
                     document.getElementById('next').classList.remove('disable');
                     handTiles[handTileIndex] = undefined;
@@ -319,8 +321,14 @@ function renderBoard() {
 
     const refBoard = document.getElementById('board');
     const [boardRange, tileSize] = sizeBoard(refBoard);
-    refBoard.innerHTML = '';
+
     // console.log(refBoard.offsetWidth);
+
+    const refSizer = document.getElementById('board-sizer');
+    refSizer.style.width = Math.max(refBoard.offsetWidth, (boardRange.dx) * tileSize);
+    refSizer.style.height = Math.max(refBoard.offsetHeight, (boardRange.dy) * tileSize);
+
+    refSizer.innerHTML = '';
 
     tiles.next = [];
 
@@ -330,6 +338,10 @@ function renderBoard() {
         addNextTile(x - 1, y);
         addNextTile(x, y + 1);
         addNextTile(x, y - 1);
+    }
+
+    if (tiles.live.length === 0) {
+        addNextTile(0, 0);
     }
 
     for (const tile of tiles.live) {
@@ -351,10 +363,10 @@ function renderBoard() {
         ref.style.width = `${tileSize - borderSize}px`;
         ref.style.height = `${tileSize - borderSize}px`;
         ref.style.fontSize = `${tileSize - borderSize}px`;
-        ref.style.top = `${(tile.y - boardRange.y - 0.5) * tileSize + refBoard.offsetHeight / 2}px`;
-        ref.style.left = `${(tile.x - boardRange.x - 0.5) * tileSize + refBoard.offsetWidth / 2}px`;
+        ref.style.top = `${(tile.y - boardRange.y - 0.5) * tileSize + (refSizer.offsetHeight + borderSize) / 2}px`;
+        ref.style.left = `${(tile.x - boardRange.x - 0.5) * tileSize + (refSizer.offsetWidth + borderSize) / 2}px`;
         ref.appendChild(svgShapes[tile.shape](fhsla(...color, 1.0)));
-        refBoard.appendChild(ref);
+        refSizer.appendChild(ref);
     }
 
     if (placedTiles.length > 0) {
@@ -482,13 +494,20 @@ function dragElement(ref, i) {
 function renderHandTiles() {
     const refHand = document.getElementById('hand');
     refHand.innerHTML = '';
-    const tileSize = (() => {
-        if (window.matchMedia && window.matchMedia('only screen and (max-height: 900px) and (orientation: landscape)').matches) {
-            return Math.min(refHand.offsetHeight / 7, refHand.offsetWidth / 1.5);
-        } else {
-            return Math.min(refHand.offsetWidth / 7, refHand.offsetHeight / 1.5);
-        }
-    })();
+    // const tileSize = (() => {
+    //     if (window.matchMedia && window.matchMedia('only screen and (max-height: 900px) and (orientation: landscape)').matches) {
+    //         return Math.min(refHand.offsetHeight / 7, refHand.offsetWidth / 1.5);
+    //     } else {
+    //         return Math.min(refHand.offsetWidth / 7, refHand.offsetHeight / 1.5);
+    //     }
+    // })();
+
+    const refBoard = document.getElementById('board');
+    let [, tileSize] = sizeBoard(refBoard);
+
+    tileSize = Math.min(tileSize, (refHand.offsetWidth / 7))
+
+    refHand.style.height = `${tileSize * 1.5}px`;
 
 
     let i = 0;
@@ -580,10 +599,10 @@ const scoreList = [];
                     ref.classList.add('score');
                     setTimeout(() => {
                         ref.classList.remove('score');
-                    }, 350);
+                    }, 400);
                     totalScore++;
                     document.getElementById('score').innerText = totalScore;
-                    await delay(400);
+                    await delay(450);
                 } else if (tile === 6) {
                     audio.qwirkle.play();
                     const j = i + 1;
@@ -637,19 +656,6 @@ const scoreList = [];
     }
 }
 
-
-(async () => {
-    for (const tile of tileAdds) {
-        addLiveTile(...tile);
-
-        renderBoard();
-        // await delay(500);
-    }
-})();
-
-// console.log(tiles.live);
-// console.log(tiles.next);
-
 handTiles.push({ shape: 'square', color: 'red' });
 handTiles.push({ shape: 'square', color: 'orange' });
 handTiles.push({ shape: 'square', color: 'yellow' });
@@ -657,21 +663,36 @@ handTiles.push({ shape: 'square', color: 'green' });
 handTiles.push({ shape: 'square', color: 'blue' });
 handTiles.push({ shape: 'square', color: 'purple' });
 
+(async () => {
+    for (const tile of tileAdds) {
+        addLiveTile(...tile);
+
+        renderBoard();
+        renderHandTiles();
+        // await delay(500);
+    }
+})();
+
+// addNextTile(0, 0);
+
+// renderHandTiles();
+// renderBoard();
+
+// console.log(tiles.live);
+// console.log(tiles.next);
+
 // for (let i = 0; i < 3; i++) {
 //     handTiles.push(pickTileFromBag());
 // }
 
 
-renderHandTiles();
-
-
-
 window.matchMedia('(orientation: landscape)').addEventListener('change', event => {
-    renderBoard();
     renderHandTiles();
+    renderBoard();
+
 });
 
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
-    renderBoard();
     renderHandTiles();
+    renderBoard();
 });
