@@ -139,13 +139,13 @@ body {
   /* border-width: 1px;
   border-style: solid;
   border-color: rgb(10, 10, 10); */
-  transform-origin: center;
+  /* transform-origin: center; */
   /* box-shadow: rgba(55, 55, 55, 0.15) 1.95px 1.95px 2.6px; */
 }
 
-#hand .tile {
+/* #hand .tile {
   transform-origin: 50% 50%;
-}
+} */
 
 .tile.next {
   animation-name: fadein;
@@ -189,7 +189,7 @@ body {
   transition: all 0.3s ease-in-out;
 }
 
-#hand .tile.selected.invalid {
+#hand .tile.selected.invalid svg {
   animation-name: invalid;
   animation-duration: 0.2s;
   animation-iteration-count: infinite;
@@ -217,10 +217,10 @@ body {
     transform: translate(0%, 0%) rotate(0deg);
   }
   25% {
-    transform: translate(5%, 0%) rotate(-5deg);
+    transform: translate(10%, 0%) rotate(0deg);
   }
   75% {
-    transform: translate(-5%, 0%) rotate(5deg);
+    transform: translate(-10%, 0%) rotate(0deg);
   }
 }
 
