@@ -279,8 +279,8 @@ function renderNextTiles(tileList, boardRange, tileSize) {
         // ref.innerText = `${tile.x} ${tile.y}`;
         ref.style.width = `${tileSize - borderSize}px`;
         ref.style.height = `${tileSize - borderSize}px`;
-        ref.style.top = `${(tile.y - boardRange.y) * tileSize + refBoard.offsetHeight / 2}px`;
-        ref.style.left = `${(tile.x - boardRange.x) * tileSize + refBoard.offsetWidth / 2}px`;
+        ref.style.top = `${(tile.y - boardRange.y - 0.5) * tileSize + refBoard.offsetHeight / 2}px`;
+        ref.style.left = `${(tile.x - boardRange.x - 0.5) * tileSize + refBoard.offsetWidth / 2}px`;
 
         ref.onclick = () => {
             const handTile = handTiles[handTileIndex];
@@ -342,8 +342,8 @@ function renderBoard() {
         ref.style.width = `${tileSize - borderSize}px`;
         ref.style.height = `${tileSize - borderSize}px`;
         ref.style.fontSize = `${tileSize - borderSize}px`;
-        ref.style.top = `${(tile.y - boardRange.y) * tileSize + refBoard.offsetHeight / 2}px`;
-        ref.style.left = `${(tile.x - boardRange.x) * tileSize + refBoard.offsetWidth / 2}px`;
+        ref.style.top = `${(tile.y - boardRange.y - 0.5) * tileSize + refBoard.offsetHeight / 2}px`;
+        ref.style.left = `${(tile.x - boardRange.x - 0.5) * tileSize + refBoard.offsetWidth / 2}px`;
         ref.appendChild(svgShapes[tile.shape](fhsla(...color, 1.0)));
         refBoard.appendChild(ref);
     }
@@ -491,7 +491,7 @@ function renderHandTiles() {
         }
         ref.style.width = `${tileSize - borderSize}px`;
         ref.style.height = `${tileSize - borderSize}px`;
-        ref.style.top = `${refHand.offsetHeight / 2}px`;
+        ref.style.top = `${-0.5 * tileSize + refHand.offsetHeight / 2}px`;
         ref.style.left = `${(i - 2.5) * tileSize + refHand.offsetWidth / 2}px`;
 
         // if (handTileIndex === i) {

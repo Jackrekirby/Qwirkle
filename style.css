@@ -102,7 +102,7 @@ body {
   background-color: rgb(20, 20, 20);
   font-weight: bold;
   font-size: 200%;
-  transform: translate(-50%, -50%);
+  /* transform: translate(-50%, -50%); */
   -webkit-user-select: none; /* Safari */
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none; /* IE10+/Edge */
@@ -110,7 +110,7 @@ body {
   /* border-width: 1px;
   border-style: solid;
   border-color: rgb(10, 10, 10); */
-  transform-origin: top left;
+  transform-origin: center;
   /* box-shadow: rgba(55, 55, 55, 0.15) 1.95px 1.95px 2.6px; */
 }
 
@@ -195,31 +195,37 @@ body {
 
 @keyframes score {
   0% {
-    rotate: 0deg;
-    scale: 100%;
+    transform: scale(100%);
+    /* rotate: 0deg; */
+    /* scale: 100%; */
   }
   100% {
+    transform: scale(100%);
     /* rotate: 360deg; */
-    scale: 100%;
+    /* scale: 100%; */
   }
   50% {
+    transform: scale(130%);
     /* rotate: 180deg; */
-    scale: 130%;
+    /* scale: 130%; */
   }
 }
 
 @keyframes qwirkle {
   0% {
-    rotate: 0deg;
-    scale: 100%;
+    transform: rotate(0deg) scale(100%);
+    /* rotate: 0deg;
+    scale: 100%; */
   }
   100% {
-    rotate: 360deg;
-    scale: 100%;
+    transform: rotate(360deg) scale(100%);
+    /* rotate: 360deg;
+    scale: 100%; */
   }
   50% {
-    rotate: 180deg;
-    scale: 130%;
+    transform: rotate(180deg) scale(130%);
+    /* rotate: 180deg;
+    scale: 130%; */
   }
 }
 
