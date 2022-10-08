@@ -510,10 +510,10 @@ function renderHandTiles() {
 
 
     if (window.matchMedia && window.matchMedia('only screen and (max-height: 900px) and (orientation: landscape)').matches) {
-        tileSize = Math.min(tileSize, (refHand.offsetHeight / 7));
+        tileSize = Math.min(tileSize * 1.5, (refHand.offsetHeight / 7));
         refHand.style.width = `${tileSize * 1.5}px`;
     } else {
-        tileSize = Math.min(tileSize, (refHand.offsetWidth / 7));
+        tileSize = Math.min(tileSize * 1.5, (refHand.offsetWidth / 7));
         refHand.style.height = `${tileSize * 1.5}px`;
     }
 
