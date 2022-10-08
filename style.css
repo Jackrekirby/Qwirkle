@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@100;200;400;500;600;700;800&display=swap");
+
 * {
   padding: 0;
   margin: 0;
@@ -20,11 +22,13 @@ body {
 /* version */
 
 #version {
-  position: absolute;
-  top: 1rem;
-  left: 1.5rem;
   color: rgba(255, 255, 255, 0.5);
   font-size: x-large;
+  width: 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 /* scoring */
@@ -38,18 +42,32 @@ body {
   font-weight: bold;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
 }
 
 #last-score {
-  position: absolute;
-  right: 1rem;
   color: rgba(255, 255, 255, 0.5);
+  width: 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 #score {
   font-size: 4rem;
+}
+
+#score-board {
+  width: 100%;
+  flex-grow: 1;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 
 /* board */
@@ -293,5 +311,33 @@ body {
 
   #version {
     color: rgba(0, 0, 0, 0.5);
+  }
+}
+
+@media only screen and (max-height: 900px) and (orientation: landscape) {
+  body {
+    flex-direction: row;
+  }
+
+  #hand {
+    width: 10rem;
+    height: 100%;
+  }
+
+  #btn-area {
+    height: 100%;
+    width: 4rem;
+    flex-direction: column;
+  }
+
+  #btn-area > div {
+    width: 100%;
+    overflow: hidden;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+  }
+
+  #score-board {
+    height: 100%;
   }
 }

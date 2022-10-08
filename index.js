@@ -473,7 +473,15 @@ function dragElement(ref, i) {
 function renderHandTiles() {
     const refHand = document.getElementById('hand');
     refHand.innerHTML = '';
-    const tileSize = Math.min(refHand.offsetWidth / 7, refHand.offsetHeight / 1.5);
+    const tileSize = (() => {
+        if (window.matchMedia && window.matchMedia('only screen and (max-height: 900px) and (orientation: landscape)').matches) {
+            return Math.min(refHand.offsetHeight / 7, refHand.offsetWidth / 1.5);
+        } else {
+            return Math.min(refHand.offsetWidth / 7, refHand.offsetHeight / 1.5);
+        }
+    })();
+
+
     let i = 0;
     for (const tile of handTiles) {
         if (tile == undefined) { i++; continue; }
@@ -491,8 +499,18 @@ function renderHandTiles() {
         }
         ref.style.width = `${tileSize - borderSize}px`;
         ref.style.height = `${tileSize - borderSize}px`;
-        ref.style.top = `${-0.5 * tileSize + refHand.offsetHeight / 2}px`;
-        ref.style.left = `${(i - 3) * tileSize + refHand.offsetWidth / 2}px`;
+
+        if (window.matchMedia && window.matchMedia('only screen and (max-height: 900px) and (orientation: landscape)').matches) {
+            console.log('LANDSCAPE');
+            ref.style.left = `${-0.5 * tileSize + refHand.offsetWidth / 2}px`;
+            ref.style.top = `${(i - 3) * tileSize + refHand.offsetHeight / 2}px`;
+        } else {
+            ref.style.top = `${-0.5 * tileSize + refHand.offsetHeight / 2}px`;
+            ref.style.left = `${(i - 3) * tileSize + refHand.offsetWidth / 2}px`;
+        }
+
+
+
 
         // if (handTileIndex === i) {
         //     ref.classList.add('selected');
@@ -632,6 +650,13 @@ handTiles.push({ shape: 'square', color: 'purple' });
 
 
 renderHandTiles();
+
+
+
+window.matchMedia('(orientation: landscape)').addEventListener('change', event => {
+    renderBoard();
+    renderHandTiles();
+});
 
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
     renderBoard();
