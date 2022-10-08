@@ -1,10 +1,12 @@
 console.log('qwirkle');
 
 const audio = {
-    qwirkle: new Audio('qwirkle.mp3'),
-    point: new Audio('point.mp3'),
-    invalid: new Audio('wrong.mp3'),
-    place: new Audio('place.mp3'),
+    qwirkle: new Audio('audio/qwirkle.mp3'),
+    point: new Audio('audio/point.mp3'),
+    invalid: new Audio('audio/wrong.mp3'),
+    place: new Audio('audio/place.mp3'),
+    undo: new Audio('audio/undo.mp3'),
+    submit: new Audio('audio/submit.mp3'),
 }
 
 const shapeMap = {
@@ -505,10 +507,15 @@ function renderHandTiles() {
     const refBoard = document.getElementById('board');
     let [, tileSize] = sizeBoard(refBoard);
 
-    tileSize = Math.min(tileSize, (refHand.offsetWidth / 7))
 
-    refHand.style.height = `${tileSize * 1.5}px`;
 
+    if (window.matchMedia && window.matchMedia('only screen and (max-height: 900px) and (orientation: landscape)').matches) {
+        tileSize = Math.min(tileSize, (refHand.offsetHeight / 7));
+        refHand.style.width = `${tileSize * 1.5}px`;
+    } else {
+        tileSize = Math.min(tileSize, (refHand.offsetWidth / 7));
+        refHand.style.height = `${tileSize * 1.5}px`;
+    }
 
     let i = 0;
     for (const tile of handTiles) {
@@ -583,6 +590,7 @@ const scoreList = [];
     const ref = document.getElementById('next');
     ref.onclick = () => {
         if (ref.classList.contains('disable')) return;
+        // audio.submit.play();
         console.log('scoreList', scoreList);
         ref.classList.add('disable');
         document.getElementById('undo').classList.add('disable');
@@ -639,6 +647,8 @@ const scoreList = [];
     const ref = document.getElementById('undo');
     ref.onclick = () => {
         if (ref.classList.contains('disable')) return;
+        audio.undo.currentTime = 0;
+        audio.undo.play();
         for (let i = 0; i < 6; i++) {
             if (handTiles[i] === undefined) {
                 handTiles[i] = tiles.live.at(-1);
@@ -687,9 +697,10 @@ handTiles.push({ shape: 'square', color: 'purple' });
 
 
 window.matchMedia('(orientation: landscape)').addEventListener('change', event => {
+    console.log('here');
     renderHandTiles();
     renderBoard();
-
+    renderHandTiles();
 });
 
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {

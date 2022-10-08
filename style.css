@@ -87,9 +87,8 @@ body {
 
 #hand {
   position: relative;
-  min-height: min(10%, 5rem);
-  max-height: max(10%, 10rem);
-  width: 100%;
+  min-width: 100%;
+  min-height: 0px;
   background-color: rgba(255, 255, 255, 0.05);
 }
 
@@ -116,12 +115,19 @@ body {
   align-items: center;
 }
 
-#btn-area > div:not(.disable):hover {
+#btn-area > div svg {
+  max-width: 80%;
+  max-height: 80%;
+  transform: scale(100%);
+  transition: all 0.2s ease-in-out;
+}
+
+#btn-area > div:not(.disable):active {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
-#btn-area > div.disable {
-  color: rgba(255, 255, 255, 0.2);
+#btn-area > div:not(.disable):active svg {
+  transform: scale(80%);
 }
 
 /* tile */
@@ -292,6 +298,10 @@ body {
     color: rgba(0, 0, 0, 0.2);
   }
 
+  #btn-area > div svg {
+    filter: invert();
+  }
+
   .tile {
     background-color: rgb(235, 235, 235);
     /* box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px; */
@@ -322,8 +332,8 @@ body {
   }
 
   #hand {
-    width: 10rem;
-    height: 100%;
+    min-width: 0px;
+    min-height: 100%;
   }
 
   #btn-area {
