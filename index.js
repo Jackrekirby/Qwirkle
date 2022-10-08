@@ -1,7 +1,7 @@
 console.log('qwirkle');
 
 {
-    const version = 'v12';
+    const version = 'v13';
     const ref = document.getElementById('version');
     if (version != ref.innerText) {
         ref.innerText = version + '*';
@@ -15,6 +15,7 @@ const audio = {
     place: new Audio('audio/place.mp3'),
     undo: new Audio('audio/undo.mp3'),
     submit: new Audio('audio/submit.mp3'),
+    select: new Audio('audio/select.mp3'),
 }
 
 const shapeMap = {
@@ -570,6 +571,9 @@ function renderHandTiles() {
                 oldRef.firstChild.style.fill = fhsla(...colorMap[handTiles[handTileIndex].color], 0.6);
 
             }
+
+            audio.select.currentTime = 0;
+            audio.select.play();
 
             handTileIndex = k;
             const newRef = document.getElementById('hand-tile-' + k);
