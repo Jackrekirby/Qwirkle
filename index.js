@@ -1,5 +1,13 @@
 console.log('qwirkle');
 
+{
+    const version = 'v12';
+    const ref = document.getElementById('version');
+    if (version != ref.innerText) {
+        ref.innerText = version + '*';
+    }
+}
+
 const audio = {
     qwirkle: new Audio('audio/qwirkle.mp3'),
     point: new Audio('audio/point.mp3'),
